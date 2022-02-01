@@ -1,0 +1,677 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 12.9 (Ubuntu 12.9-0ubuntu0.20.04.1)
+-- Dumped by pg_dump version 12.9 (Ubuntu 12.9-0ubuntu0.20.04.1)
+
+-- Started on 2022-02-01 09:43:15 WAT
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- TOC entry 203 (class 1259 OID 16496)
+-- Name: enfants; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.enfants (
+    id integer NOT NULL,
+    nom character varying(100),
+    prenom character varying(100),
+    adresse character varying(100),
+    genre character varying(100),
+    age integer NOT NULL
+);
+
+
+ALTER TABLE public.enfants OWNER TO postgres;
+
+--
+-- TOC entry 202 (class 1259 OID 16494)
+-- Name: enfants_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.enfants_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.enfants_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3024 (class 0 OID 0)
+-- Dependencies: 202
+-- Name: enfants_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.enfants_id_seq OWNED BY public.enfants.id;
+
+
+--
+-- TOC entry 207 (class 1259 OID 16512)
+-- Name: localisations; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.localisations (
+    id integer NOT NULL,
+    description character varying(100),
+    latitude integer NOT NULL,
+    longitude integer NOT NULL
+);
+
+
+ALTER TABLE public.localisations OWNER TO postgres;
+
+--
+-- TOC entry 206 (class 1259 OID 16510)
+-- Name: localisations_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.localisations_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.localisations_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3025 (class 0 OID 0)
+-- Dependencies: 206
+-- Name: localisations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.localisations_id_seq OWNED BY public.localisations.id;
+
+
+--
+-- TOC entry 211 (class 1259 OID 16538)
+-- Name: operations; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.operations (
+    id integer NOT NULL,
+    description character varying(100),
+    parents_id integer NOT NULL,
+    localisations_id integer NOT NULL
+);
+
+
+ALTER TABLE public.operations OWNER TO postgres;
+
+--
+-- TOC entry 210 (class 1259 OID 16536)
+-- Name: operations_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.operations_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.operations_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3026 (class 0 OID 0)
+-- Dependencies: 210
+-- Name: operations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.operations_id_seq OWNED BY public.operations.id;
+
+
+--
+-- TOC entry 205 (class 1259 OID 16504)
+-- Name: parents; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.parents (
+    id integer NOT NULL,
+    nom character varying(100),
+    email character varying(100),
+    adresse character varying(100)
+);
+
+
+ALTER TABLE public.parents OWNER TO postgres;
+
+--
+-- TOC entry 204 (class 1259 OID 16502)
+-- Name: parents_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.parents_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.parents_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3027 (class 0 OID 0)
+-- Dependencies: 204
+-- Name: parents_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.parents_id_seq OWNED BY public.parents.id;
+
+
+--
+-- TOC entry 209 (class 1259 OID 16520)
+-- Name: suivis; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.suivis (
+    id integer NOT NULL,
+    description character varying(100) NOT NULL,
+    parents_id integer NOT NULL,
+    enfants_id integer NOT NULL
+);
+
+
+ALTER TABLE public.suivis OWNER TO postgres;
+
+--
+-- TOC entry 208 (class 1259 OID 16518)
+-- Name: suivis_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.suivis_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.suivis_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3028 (class 0 OID 0)
+-- Dependencies: 208
+-- Name: suivis_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.suivis_id_seq OWNED BY public.suivis.id;
+
+
+--
+-- TOC entry 2864 (class 2604 OID 16499)
+-- Name: enfants id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.enfants ALTER COLUMN id SET DEFAULT nextval('public.enfants_id_seq'::regclass);
+
+
+--
+-- TOC entry 2866 (class 2604 OID 16515)
+-- Name: localisations id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.localisations ALTER COLUMN id SET DEFAULT nextval('public.localisations_id_seq'::regclass);
+
+
+--
+-- TOC entry 2868 (class 2604 OID 16541)
+-- Name: operations id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.operations ALTER COLUMN id SET DEFAULT nextval('public.operations_id_seq'::regclass);
+
+
+--
+-- TOC entry 2865 (class 2604 OID 16507)
+-- Name: parents id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.parents ALTER COLUMN id SET DEFAULT nextval('public.parents_id_seq'::regclass);
+
+
+--
+-- TOC entry 2867 (class 2604 OID 16523)
+-- Name: suivis id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.suivis ALTER COLUMN id SET DEFAULT nextval('public.suivis_id_seq'::regclass);
+
+
+--
+-- TOC entry 3010 (class 0 OID 16496)
+-- Dependencies: 203
+-- Data for Name: enfants; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.enfants (id, nom, prenom, adresse, genre, age) FROM stdin;
+1	mahamat	issa	farcha	masculin	9
+2	farida	bossawa	walia	femini	8
+3298	Malissia	Redmille	84 Troy Place	Male	21
+500	Aura	Pitkins	3778 Sunnyside Circle	Female	22
+516	Laurene	Blesli	906 Elka Pass	Female	23
+3093	Elroy	Briscam	144 Gerald Junction	Male	140
+9009	Moreen	Kik	330 Westerfield Terrace	Female	141
+6598	August	Reis	6995 Crescent Oaks Pass	Male	142
+8165	Rowena	Louys	8961 Merry Court	Male	143
+1743	Essie	Ayllett	95366 Truax Pass	Male	144
+8743	Meredeth	Dionis	674 Autumn Leaf Circle	Female	145
+5432	Wandis	Chavez	61 Claremont Pass	Female	146
+32	Malissia	Redmille	84 Troy Place	Male	21
+50	Aura	Pitkins	3778 Sunnyside Circle	Female	22
+56	Laurene	Blesli	906 Elka Pass	Female	23
+94	Barnabe	Motto	2 Huxley Parkway	Female	24
+95	Ewell	Micklem	4 Milwaukee Avenue	Male	25
+328	Rebeca	Sanham	760 Rigney Pass	Male	26
+68	Wat	Rikel	29 Chinook Terrace	Female	27
+16	Robinson	Noades	818 Hazelcrest Pass	Male	28
+74	Toinette	Greenaway	21484 Fuller Place	Female	29
+26	Orly	Worviell	3884 Maryland Trail	Male	30
+82	Nomi	D'Angeli	702 Lunder Circle	Female	31
+38	Anatole	Whiteman	529 Cottonwood Place	Female	32
+15	Tiff	Georgi	6 Aberg Drive	Female	33
+85	Giana	Crannach	4 Browning Pass	Female	34
+99	Pepito	Maclean	1426 Everett Alley	Male	35
+34	Bernardine	Hinder	454 Warner Trail	Male	36
+78	Garret	Kermit	042 Judy Crossing	Male	37
+83	Doreen	Patroni	3266 Scofield Center	Male	38
+51	Alistair	Wassung	54013 Lakewood Road	Male	39
+2237	Ian	Critchell	46409 Northwestern Junction	Male	147
+545	Fania	Calderon	87 High Crossing Plaza	Male	148
+1971	Matilde	Veck	40431 Golden Leaf Hill	Female	149
+924	Barnabe	Motto	2 Huxley Parkway	Female	24
+925	Ewell	Micklem	4 Milwaukee Avenue	Male	25
+378	Rebeca	Sanham	760 Rigney Pass	Male	26
+638	Wat	Rikel	29 Chinook Terrace	Female	27
+136	Robinson	Noades	818 Hazelcrest Pass	Male	28
+7234	Toinette	Greenaway	21484 Fuller Place	Female	29
+2126	Orly	Worviell	3884 Maryland Trail	Male	30
+8112	Nomi	D'Angeli	702 Lunder Circle	Female	31
+3748	Anatole	Whiteman	529 Cottonwood Place	Female	32
+1115	Tiff	Georgi	6 Aberg Drive	Female	33
+8511	Giana	Crannach	4 Browning Pass	Female	34
+9911	Pepito	Maclean	1426 Everett Alley	Male	35
+3224	Bernardine	Hinder	454 Warner Trail	Male	36
+7118	Garret	Kermit	042 Judy Crossing	Male	37
+8311	Doreen	Patroni	3266 Scofield Center	Male	38
+5211	Alistair	Wassung	54013 Lakewood Road	Male	39
+4212	Joscelin	Sedman	453 Green Street	Male	40
+2521	Benedick	Hogben	7 Carberry Terrace	Male	41
+5438	Bevvy	Lorait	3667 West Place	Male	42
+9312	Regine	Mantrup	517 Rigney Way	Male	43
+1228	Giustino	Ciani	3 Wayridge Drive	Male	44
+8222	Mavra	Oxtiby	27809 Jenna Drive	Female	45
+1522	Stacee	Muggeridge	87 Chinook Junction	Male	58
+1832	Tades	Ebbins	44140 Algoma Park	Male	59
+8202	Korrie	Gissing	21 Warrior Center	Female	60
+4812	Ric	Lally	0523 Canary Drive	Female	62
+1231	Rosella	Vogeller	29589 Daystar Junction	Male	63
+2111	Niko	Wiggins	3 Northfield Place	Male	64
+6331	Mariya	Arbon	4493 Forest Dale Street	Female	65
+45	Carley	Skuce	4 Mcguire Court	Female	66
+14	Ayn	Christian	1 Northwestern Plaza	Male	67
+61	Ingrim	Muffen	53 Forest Run Way	Male	68
+65	Walt	O'Doghesty	6109 Declaration Way	Female	69
+66	Hill	Strank	8 Crescent Oaks Parkway	Male	70
+48	Humfrid	Vaughton	0 Garrison Place	Female	71
+76	Teador	Stithe	62906 Barnett Alley	Male	72
+42	Christy	Billo	01 Rutledge Parkway	Male	73
+3	Mikael	Pedgrift	2261 School Hill	Male	74
+49	Shanna	Gelardi	559 Union Terrace	Male	75
+72	Arne	Lennon	21490 Blaine Point	Female	76
+954	Deane	Winterbourne	812 Washington Center	Male	77
+929	Hussein	Volonte	09574 Rieder Crossing	Male	78
+98	Guntar	Abramovitch	4344 Riverside Circle	Female	79
+186	Don	Blankau	ffernan Plaza	Female	115
+100	Gertie	Spadaro	5 Schlimgen Place	Male	116
+92	Mendel	Whitmore	32 Springs Hill	Female	117
+37	Perle	Kinmond	204 Bellgrove Way	Male	118
+850	Grange	Maccari	006 Russell Crossing	Female	119
+44	Kaia	Maclean	5593 John Wall Court	Male	120
+84	Drucy	Peetermann	1101 Northland Court	Male	121
+23	Jasper	Winterburn	8865 Portage Plaza	Male	122
+60	Benjie	Shailer	6 Dottie Way	Female	123
+22	Jyoti	Spaice	55190 Portage Parkway	Male	124
+1226	Lora	Courson	31513 Oakridge Crossing	Female	125
+631	Winonah	Harnwell	3644 Goodland Trail	Male	126
+121	Wendeline	Francis	4604 Hansons Road	Male	127
+3121	Ariela	Scud	521 Hooker Park	Male	128
+7768	Horacio	Ballach	4 Rigney Alley	Female	129
+2870	Lianne	Lamas	0 Victoria Junction	Male	130
+1980	Maurie	Razoux	48832 Continental Circle	Female	131
+7409	Nat	Spread	09 8th Terrace	Male	132
+7376	Patrick	Templeton	6 Sage Avenue	Female	133
+876	Bibi	Roblou	821 Schlimgen Center	Female	134
+690	Hartley	Lantry	2 Thierer Court	Male	135
+3976	Javier	Vernalls	2 Birchwood Hill	Male	136
+4998	Deonne	Klasen	55 Truax Alley	Male	137
+5231	Peggi	Couchman	3606 Algoma Court	Female	138
+66548	Duncan	Stainburn	9588 Everett Alley	Female	139
+\.
+
+
+--
+-- TOC entry 3014 (class 0 OID 16512)
+-- Dependencies: 207
+-- Data for Name: localisations; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.localisations (id, description, latitude, longitude) FROM stdin;
+1	sapien quis liberoger a nibh in quis	1	1
+2	potenti cras in purus  et magnis dis parturient	2	2
+3	aliquet massa id lobortis convallis tortor  eu orci mauris lacinia	3	3
+4	sit amet eros suspendisse accumsan  turpis sed ante vivamus tortor duis	4	4
+5	congue eget semper rutrum nulla nunc  semper	5	5
+6	mauris ullamcorper purus sit amet nulla quisque arcu libero rutrum ac	6	6
+7	aenean fermentum donec ut mauris eget massa tempor  eget	7	7
+8	odio porttitor id consequat in consequat ut nulla sed accumsan felis	8	8
+9	a odio in hac habitasse platea dictumst maecenas ut massa quis augue	9	9
+11	ut erat curabitnisi at nibh in hac habitasse	11	11
+12	quis turpis sed ante vivamu metus aenean	12	12
+13	volutpat convallis  lobortis est	13	13
+14	ut dolor morbi vel lectus leo rhoncus sed vestibulum sit amet cursus id	14	14
+15	erat eros viverra eget in felis donec semper	15	15
+16	pulvinar nulla pede ullamcorper augue a suscipit nulla elit ac nulla sed	16	16
+17	ligula in lacus curabitur  ullamcorper purus sit amet	17	17
+18	sed justo pellentesque viverra volutpat dui	18	18
+19	a pede posuere nonummy integer non velit donec diam neque	19	19
+20	sagittis dui vel nisl duis ac nibh fusce lacus purus aliquet at feugiat non	20	20
+21	scelerisque mauris sit sed ante vivamus	21	21
+22	arcu libero rutrum ac lobortis vel dapibus at diam nam	22	22
+23	dapibus duis at velit eu est congue elementum in hac habitasse platea dictumst	23	23
+24	integer ac leo pellentesque ultrice ultrices libero non	24	24
+25	ipsum primis in potenti nullam porttitor	25	25
+26	nulla integer pede justo lacini tempus vel pede	26	26
+27	sapien  etiam vel augue vestibulum rutrum rutrum neque	27	27
+230	dapin hac habitasse platea dictumst	23	23
+204	 vitae nisi nam ultrices libero non	24	24
+205	 quam suspendisse potenti nullam porttitor	25	25
+206	nulla integer  tincidunt eget tempus vel pede	26	26
+207	sapien cum sociis rutrum rutrum neque	27	27
+208	 eu fesem mauris laoreet ut rhoncus	28	28
+209	 morbi ut odio cras mi	29	29
+300	rhoncus amet cursus id turpis integer	30	30
+301	habitasse platea dictumst etiamum	31	31
+302	dictumst  vel ipsum praesent blandit lacinia	32	32
+303	ut massa quis  gravida nisi at nibh	33	33
+304	sed magna at nunc commodo pla tincidunt	34	34
+\.
+
+
+--
+-- TOC entry 3018 (class 0 OID 16538)
+-- Dependencies: 211
+-- Data for Name: operations; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.operations (id, description, parents_id, localisations_id) FROM stdin;
+1	felis donec sempeodio	2	1
+2	nunc  ipsum	5	2
+3	ac consequat et	7	3
+4	ultrices vitaepede	8	4
+5	porttitor aliquam	10	5
+6	 suscipit ligula	12	6
+7	dapi abitu mauris	16	7
+8	in tempor  aliquam	20	8
+9	 praesent morbi ut	22	9
+10	in ante ante cubilia	23	14
+11	nisl duis ac nibh  non	31	11
+12	sollicitudin ut	38	12
+13	ac nunnulla	40	13
+\.
+
+
+--
+-- TOC entry 3012 (class 0 OID 16504)
+-- Dependencies: 205
+-- Data for Name: parents; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.parents (id, nom, email, adresse) FROM stdin;
+40	Lucina	lchristmas0@omniture.com	integer pede justo lacinia
+10	Iorgos	igoskar1@booking.com	velit nec nisi vulputate nonummy maecen
+20	Edy	ematejovsky2@prlog.org	velit nec nisi vulputate nonummy 
+62	Hillard	hsuddaby3@twitter.com	pede malesuada in imperdiet 
+38	Oran	obecker4@constantcontact.com	curae duis faucibus 
+75	Claudina	cchafer5@opera.com	luctus ultricies eu nibh 
+22	Emilio	eascrofte6@surveymonkey.com	in lacus curabitur 
+72	Phelia	pharsum7@google.ca	tu
+48	Lanita	lperryn8@weather.com	eros elementum pellentesque quisque
+31	Dilan	dfarenden9@google.nl	lacus morbi quis tortor id nulla ultrices 
+5	Moyra	mlaflina@mashable.com	et magnis dis parturient montes 
+94	Micki	mcoodeb@icio.us	eu magna vulputate luctus cum sociis 
+2	Farleigh	fbrandtsc@1688.com	consequat ut nulla sed 
+23	Bonnee	bhadnyd@scribd.com	bibendum morbi non quam nec dui
+98	Roley	rwellbanke@barnesandnoble.com	nulla eget eros elementum 
+85	Ketti	kclayfieldf@opensource.org	augue vestibulum 
+77	Vale	vkohlerg@globo.com	quisque porta volutpat erat quisque erat 
+55	Leeland	lziemeckih@altervista.org	praesent blandit lacinia 
+7	Nanete	nrubyi@squidoo.com	lorem id ligula suspendisse ornare 
+8	Moira	mbrabantj@hexun.com	nulla nisl nunc nisl duis bibendum 
+50	Hunt	hlearyk@netvibes.com	in est risus auctor sed tristique
+16	Si	sclementl@shinystat.com	cursus vestibulum proin eu mi nulla 
+57	Miof mela	mplewsm@vimeo.com	enim sit amet nunc viverra dapibus 
+12	Erminie	eleprovostn@jiathis.com	at feugiat non pretium quis 
+67	Isa	inortherno@amazon.com	eu interdum eu tincidunt in leo 
+70	Joli	jcaswillp@4shared.com	semper interdum mauris ullamcorper 
+4548	Nicky	nbernardoq@instagram.com	et magnis dis 
+68	Margareta	mpietrowiczr@e-recht24.de	posuere nonummy integer 
+83	Brandais	bpitcocks@facebook.com	donec ut dolor morbi vel lectus
+2092	Peria	pgynnit@toplist.cz	vitae quam suspendisse potenti nullam 
+5875	Jenine	jhysomu@arstechnica.com	sapien quis libero nullam sit amet 
+3091	Calvin	corodanev@ted.com	diam neque vestibulum eget vulputate 
+8008	Reynard	riiannoniw@uiuc.edu	duis bibendum felis sed interd
+5609	Aubrey	atwentymanx@lulu.com	ipsum primis in faucibus 
+8094	Nikolos	ngalpiny@dot.gov	sit amet consectetu
+8876	Bess	bstanistretez@multiply.com	amet cursus id turpis 
+8765	Larry	lbroadist10@mapy.cz	felis ut at dolor quis odio consequat 
+2656	Aymer	abrownbridge11@boston.com	ultrices mattis odio donec
+6450	Cammy	cclerc12@g.co	nisl aenean lectus pellentesque eget
+7532	Myrlene	molufsen13@stanford.edu	felis sed interdum venenati
+987	Farrell	fzisneros14@nature.com	lacinia nisi venenatis tristique 
+8764	Sherry	sgouny15@slate.com	id ligula suspendisse ornare consequat 
+2342	Estevan	ebulward16@wordpress.org	pede malesuada in imperdiet 
+9988	Herman	hfrood17@illinois.edu	diam neque vestibulum 
+6097	Alexandr	agoulter18@deliciousdays.com	nisi volutpat 
+3876	Wally	wspringell19@1und1.de	odio in hac habitass
+7981	Lon	lkenryd1a@miitbeian.gov.cn	aliquam augue quam sollici
+409	Marabel	mvandecappelle1b@un.org	nulla tempus vivamus in felis 
+2356	Tiphani	tmoyne1c@photobucket.com	sit amet eleifend pede libero 
+400	Chantal	cfermin1d@imageshack.us	turpis elementum ligula veh
+802	Charla	cstayte1e@census.gov	consequat  dolor quis odio consequat
+\.
+
+
+--
+-- TOC entry 3016 (class 0 OID 16520)
+-- Dependencies: 209
+-- Data for Name: suivis; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.suivis (id, description, parents_id, enfants_id) FROM stdin;
+16	in quam fringilla rh amet cursus	2	1
+2	localis pour atis lacinia vourta 	5	2
+3	suivi simple	7	3
+4	suivi en cas de perte	8	14
+5	suivi en cas de perte	10	15
+6	suivi enfant en visite familliale	12	16
+15	in felis donec sempeodio	12	51
+12	nunc viverra dapibus nulla  ipsum	16	22
+17	ac consequat metus sapieluctus et	20	23
+18	ultrices mattis odio donec vitaepede	16	26
+19	porttitor lacus at turpis aliquam	23	26
+20	suscipit nulla elit ac suscipit ligula	38	34
+21	dapibus  ligula in lacus curabitu mauris	40	37
+22	in tempor nec sem duis aliquam	48	38
+23	gravida sem praesent morbi ut	50	42
+24	in ante vestibulum ante ipsum  cubilia	55	44
+25	nisl duis ac nibh  non	57	45
+26	primis in odio justo sollicitudin ut	62	48
+27	ac nunc viverra dapibus nulla	68	49
+28	in felis donec sempeodio	72	56
+29	nunc viverra dapibus nulla  ipsum	75	60
+30	ac  metus sapieluctus et	77	61
+31	ultrices  donec vitaepede	83	65
+32	porttitor lacus at turpis aliquam	85	66
+33	suscipit suscipit ligula	70	65
+\.
+
+
+--
+-- TOC entry 3029 (class 0 OID 0)
+-- Dependencies: 202
+-- Name: enfants_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.enfants_id_seq', 2, true);
+
+
+--
+-- TOC entry 3030 (class 0 OID 0)
+-- Dependencies: 206
+-- Name: localisations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.localisations_id_seq', 1, false);
+
+
+--
+-- TOC entry 3031 (class 0 OID 0)
+-- Dependencies: 210
+-- Name: operations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.operations_id_seq', 1, false);
+
+
+--
+-- TOC entry 3032 (class 0 OID 0)
+-- Dependencies: 204
+-- Name: parents_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.parents_id_seq', 1, false);
+
+
+--
+-- TOC entry 3033 (class 0 OID 0)
+-- Dependencies: 208
+-- Name: suivis_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.suivis_id_seq', 1, false);
+
+
+--
+-- TOC entry 2870 (class 2606 OID 16501)
+-- Name: enfants enfants_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.enfants
+    ADD CONSTRAINT enfants_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2874 (class 2606 OID 16517)
+-- Name: localisations localisations_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.localisations
+    ADD CONSTRAINT localisations_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2878 (class 2606 OID 16543)
+-- Name: operations operations_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.operations
+    ADD CONSTRAINT operations_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2872 (class 2606 OID 16509)
+-- Name: parents parents_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.parents
+    ADD CONSTRAINT parents_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2876 (class 2606 OID 16525)
+-- Name: suivis suivis_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.suivis
+    ADD CONSTRAINT suivis_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2882 (class 2606 OID 16549)
+-- Name: operations operations_localisations_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.operations
+    ADD CONSTRAINT operations_localisations_id_fkey FOREIGN KEY (localisations_id) REFERENCES public.localisations(id);
+
+
+--
+-- TOC entry 2881 (class 2606 OID 16544)
+-- Name: operations operations_parents_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.operations
+    ADD CONSTRAINT operations_parents_id_fkey FOREIGN KEY (parents_id) REFERENCES public.parents(id);
+
+
+--
+-- TOC entry 2879 (class 2606 OID 16526)
+-- Name: suivis suivis_enfants_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.suivis
+    ADD CONSTRAINT suivis_enfants_id_fkey FOREIGN KEY (enfants_id) REFERENCES public.enfants(id);
+
+
+--
+-- TOC entry 2880 (class 2606 OID 16531)
+-- Name: suivis suivis_parents_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.suivis
+    ADD CONSTRAINT suivis_parents_id_fkey FOREIGN KEY (parents_id) REFERENCES public.parents(id);
+
+
+-- Completed on 2022-02-01 09:43:15 WAT
+
+--
+-- PostgreSQL database dump complete
+--
+
